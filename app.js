@@ -27,11 +27,16 @@ app.get("*", (req, res) =>
 app.get("/api/notes", (req, res) => res.json(notesData));
 
 // Add a new note to db.json
-app.post("api/notes", (res, req) => {
+app.post("/api/notes", (res, req) => {
   const newNote = res.body;
   newNote.id = uuidv4();
 
   notesData.unshift(newNote);
+
+// fs.writeFileSync(
+//   path.join(__dirname, "db/db.json"),
+//   JSON.stringify(notesData, null, 2)
+// );
 
   res.json(newNote);
 });
