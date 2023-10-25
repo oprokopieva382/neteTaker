@@ -28,7 +28,7 @@ app.get("/api/notes", (req, res) => res.json(notesData));
 
 // Add a new note to db.json
 app.post("/api/notes", async (req, res) => {
-  const newNote = res.body;
+  const newNote = req.body;
 
   notesData.unshift(newNote);
 
