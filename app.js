@@ -1,8 +1,8 @@
 const express = require("express");
+const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const path = require("path");
 const notesData = require("./db/db.json");
-
 
 //instance of Express.js
 const app = express();
@@ -27,15 +27,15 @@ app.get("*", (req, res) =>
 app.get("/api/notes", (req, res) => res.json(notesData));
 
 // Add a new note to db.json
-app.post("/api/notes", async (req, res) => {
+app.post("/api/notes", (req, res) => {
   const newNote = req.body;
-
+  newNote.id = uuidv4();
   notesData.unshift(newNote);
 
-  // fs.writeFileSync(
-  //   path.join(__dirname, "db/db.json"),
-  //   JSON.stringify(notesData, null, 2)
-  // );
+  fs.writeFileSync(
+    path.join(__dirname, "db/db.json"),
+    JSON.stringify(notesData, null, 2)
+  );
 
   res.json(newNote);
 });
