@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const { postNewNote } = require("./restApi.js");
+const { postNewNote, getNotes } = require("./restApi.js");
 
 const saveNote = document.getElementById("save-note");
 const newNote = document.getElementById("new-note");
@@ -10,6 +10,17 @@ const noteTextarea = document.querySelector(".note-textarea");
 const saveNoteButton = document.querySelector(".save-note");
 const clearFormButton = document.querySelector(".clear-form");
 const newNoteButton = document.querySelector(".new-note");
+
+// Function to fetch and display notes when the page loads
+const loadNotesList = async ()=> {
+try {
+const response = await getNotes()
+const notes = response.data
+displayNotesList(notes)
+}catch(err) {
+    console.error("Error loading notes:", err);
+}
+}
 
 // Function to handle clicking the "New Note" button
 const newNoteHandler = () => {
@@ -28,10 +39,14 @@ const clearFormHandler = () => {
 
 // Function to handle clicking the "Save Note" button
 const saveNoteHandler = async () => {
+    if (!noteTitle.value || !noteText.value) {
+      alert("Please enter both a title and text for the note.");
+      return;
+    }
   const newNote = {
     id: uuidv4(),
-    title: noteTitleInput.value,
-    text: noteTextarea.value,
+    title: noteTitleInput.value.trim(),
+    text: noteTextarea.value.trim(),
   };
 
   try {
@@ -44,6 +59,8 @@ const saveNoteHandler = async () => {
   }
 };
 
+
+loadNotesList()
 newNote.addEventListener("click", newNoteHandler);
 clearForm.addEventListener("click", clearFormHandler);
 saveNote.addEventListener("click", saveNoteHandler);
