@@ -17,6 +17,11 @@ const newNoteHandler = ()=> {
 }
 
 const clearFormHandler = ()=> {
+  noteTitleInput.value = "";
+  noteTextarea.value = "";
+}
+
+const saveNoteHandler = ()=> {
     
 }
 
@@ -24,3 +29,4 @@ const clearFormHandler = ()=> {
 
 newNote.addEventListener("click", newNoteHandler)
 clearForm.addEventListener("click", clearFormHandler)
+saveNote.addEventListener("click", saveNoteHandler);
