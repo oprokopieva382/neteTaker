@@ -24,6 +24,13 @@ const loadNotesList = async () => {
   }
 };
 
+// Function to display an existing note in the right-hand column
+const displayNote = (note) => {
+  noteTitleInput.value = note.title;
+  noteTextarea.value = note.text;
+  newNoteButton.style.display = "block";
+};
+
 // Function to display a list of existing notes on the left-hand column
 const displayNotesList = (notes) => {
   listGroup.innerHTML = "";
