@@ -19,12 +19,11 @@ app.get("/notes", (req, res) =>
   res.sendFile(path.join(__dirname, "public/notes.html"))
 );
 
-app.get("*", (req, res) =>
-  res.sendFile(path.join(__dirname, "public/index.html"))
-);
-
 // Read notes from db.json
-app.get("/api/notes", (req, res) => res.json(notesData));
+app.get("/api/notes", (req, res) => {
+  console.info(`GET /api/notes`);
+  res.status(200).json(notesData);
+});
 
 // Add a new note to db.json
 app.post("/api/notes", (req, res) => {
@@ -39,6 +38,10 @@ app.post("/api/notes", (req, res) => {
 
   res.json(newNote);
 });
+
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname, "public/index.html"))
+);
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT}`)
