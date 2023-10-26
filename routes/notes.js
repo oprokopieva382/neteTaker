@@ -1,6 +1,9 @@
 const notes = require("express").Router();
-const fs = require("fs");
-const { readFromFile, readAndAppend } = require("../helpers/fsUtils");
+const {
+  readFromFile,
+  readAndAppend,
+  writeToFile,
+} = require("../helpers/fsUtils");
 const { v4: uuidv4 } = require("uuid");
 
 // GET for read notes from db.json
@@ -17,11 +20,10 @@ notes.post("/", (req, res) => {
     const newNote = {
       title,
       text,
-      topic,
       id: uuidv4(),
     };
 
-    readAndAppend(newNote, "./db/tips.json");
+    readAndAppend(newNote, "./db/db.json");
     res.json(`New note added successfully`);
   } else {
     res.error("Error in adding tip");
@@ -33,14 +35,14 @@ notes.delete("/:id", async (req, res) => {
   let id = req.params.id;
 
   try {
-    const notesData = await readFromFile("./db/db.json").then((data) =>
-      res.json(JSON.parse(data))
-    );
+    const data = await readFromFile("./db/db.json");
+    const notesData = JSON.parse(data);
+
     const index = notesData.findIndex((note) => note.id === id);
     if (index !== -1) {
       notesData.splice(index, 1);
-      await fs.writeToFile(path.join(__dirname, ".db/db.json"), notesData);
 
+      await writeToFile("./db/db.json", notesData);
       res.status(200).send();
     } else {
       res.status(404).json({ message: "Note not found" });
