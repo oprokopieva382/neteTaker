@@ -1,8 +1,5 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
-const fs = require("fs");
 const path = require("path");
-let notesData = require("./db/db.json");
 
 //instance of Express.js
 const app = express();
