@@ -7,12 +7,15 @@ let notesData = require("./db/db.json");
 //instance of Express.js
 const app = express();
 const PORT = process.env.port || 3001;
+app.use(clog);
 
 // Static middleware pointing to the public folder
 app.use(express.static("public"));
 
 // Middleware for parsing JSON in request body
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/api", api);
 
 //HTML route
 app.get("/notes", (req, res) =>
