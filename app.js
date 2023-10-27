@@ -5,7 +5,7 @@ const api = require("./routes/index.js");
 
 //instance of Express.js
 const app = express();
-const PORT = process.env.port || 3001;
+const PORT = process.env.PORT || 3001;
 app.use(clog);
 
 // Static middleware pointing to the public folder
